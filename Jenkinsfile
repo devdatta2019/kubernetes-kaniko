@@ -52,7 +52,6 @@ podTemplate(yaml: '''
         prismaCloudScanImage ca: '',
                     cert: '',
                     image: 'hello-kaniko:1.1',
-                    dockerAddress: 'unix:///var/run/docker.sock',
                     ignoreImageBuildTime: true,
                     key: '',
                     logLevel: 'info',
