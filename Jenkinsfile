@@ -48,6 +48,24 @@ podTemplate(yaml: '''
         }
       }
     }
+ stage ('Prisma Cloud scan') { 
+        prismaCloudScanImage ca: '',
+                    cert: '',
+                    image: 'hello-kaniko:1.1',
+                    dockerAddress: 'unix:///var/run/docker.sock',
+                    ignoreImageBuildTime: true,
+                    key: '',
+                    logLevel: 'info',
+                    podmanPath: '',
+                    project: '',
+                    resultsFile: 'prisma-cloud-scan-results.json'
+                 
+    }
 
+    stage ('Prisma Cloud publish') {
+        prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
+    }
   }
 }
+  
+
