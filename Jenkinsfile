@@ -63,7 +63,6 @@ podTemplate(yaml: '''
         """
       }
     }
-
      stage ('Prisma Cloud scan') { 
         prismaCloudScanImage ca: '',
                     cert: '',
@@ -76,9 +75,5 @@ podTemplate(yaml: '''
                     resultsFile: 'prisma-cloud-scan-results.json'
                  
     }
-
     stage ('Prisma Cloud publish') {
         prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
-    }
-  }
-}
