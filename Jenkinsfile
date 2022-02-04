@@ -9,12 +9,6 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: jnlp
-        image: jenkinsci/jnlp-slave:3.10-1-alpine
-        command:
-        - sleep
-        args:
-        - ${computer.jnlpmac} ${computer.name}
       - name: kaniko
         image: gcr.io/kaniko-project/executor:debug
         command:
