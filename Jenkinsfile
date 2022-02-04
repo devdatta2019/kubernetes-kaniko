@@ -9,8 +9,6 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: jnlp
-        image: jenkinsci/jnlp-slave:3.10-1-alpine
       - name: alpine
         image: alpine
         ttyEnabled: true
