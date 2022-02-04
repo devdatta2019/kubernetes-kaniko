@@ -9,6 +9,12 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
+      - name: jnlp
+        image: jenkinsci/jnlp-slave:3.10-1-alpine
+        command:
+        - sleep
+        args:
+        - ${computer.jnlpmac} ${computer.name}
       - name: kaniko
         image: gcr.io/kaniko-project/executor:debug
         command:
@@ -43,7 +49,7 @@ podTemplate(yaml: '''
       container('kaniko') {
         stage('Build a Go project') {
           sh '''
-            /kaniko/executor --context `pwd` --destination devdatta1987/hello-kaniko:1.1
+            /kaniko/executor --context `pwd` --destination devdatta1987/hello-kaniko:1.2
           '''
         }
       }
@@ -51,7 +57,7 @@ podTemplate(yaml: '''
  stage ('Prisma Cloud scan') { 
         prismaCloudScanImage ca: '',
                     cert: '',
-                    image: 'hello-kaniko:1.1',
+                    image: 'hello-kaniko:1.2',
                     ignoreImageBuildTime: true,
                     key: '',
                     logLevel: 'info',
