@@ -12,7 +12,7 @@ podTemplate(yaml: '''
       - name: jnlp
         image: jenkinsci/jnlp-slave:3.10-1-alpine
       - name: alpine
-        image: twistian/alpine:latest'
+        image: alpine
         ttyEnabled: true
       - name: kaniko
         image: gcr.io/kaniko-project/executor:debug
