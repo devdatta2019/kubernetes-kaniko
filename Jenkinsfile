@@ -9,6 +9,13 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
+      - name: jnlp
+        image: jenkinsci/jnlp-slave:3.10-1-alpine
+        args: ${computer.jnlpmac} ${computer.name}
+      - name: alpine
+        image: twistian/alpine:latest'
+        command: 'cat'
+        ttyEnabled: true
       - name: kaniko
         image: gcr.io/kaniko-project/executor:debug
         command:
@@ -48,10 +55,19 @@ podTemplate(yaml: '''
         }
       }
     }
- stage ('POD_LABEL') { 
+ stage('prismaCloud-example-builder') { 
+    stage ('Pull image') {
+      container('alpine') {
+        
+        
+        """
+      }
+    }
+
+     stage ('Prisma Cloud scan') { 
         prismaCloudScanImage ca: '',
                     cert: '',
-                    image: 'ubuntu:latest',
+                    image: 'nginx:stable-alpine'',
                     ignoreImageBuildTime: true,
                     key: '',
                     logLevel: 'info',
@@ -66,6 +82,3 @@ podTemplate(yaml: '''
     }
   }
 }
-      
-  
-
