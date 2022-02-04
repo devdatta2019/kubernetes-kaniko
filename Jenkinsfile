@@ -44,7 +44,7 @@ podTemplate(yaml: '''
         stage('Build a Go project') {
           sh  '/kaniko/executor --context `pwd'
           
-          '''
+          
         }
       }
     }
@@ -66,5 +66,3 @@ podTemplate(yaml: '''
     }
   }
 }
-  
-
