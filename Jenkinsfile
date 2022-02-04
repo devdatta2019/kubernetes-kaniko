@@ -48,7 +48,7 @@ podTemplate(yaml: '''
         }
       }
     }
- stage ('Prisma Cloud scan') { 
+ stage ('POD_LABEL') { 
         prismaCloudScanImage ca: '',
                     cert: '',
                     image: 'ubuntu:latest',
