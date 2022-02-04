@@ -42,27 +42,12 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('kaniko') {
         stage('Build a Go project') {
-          sh  '/kaniko/executor --context `pwd'
-          
-            '''
+          sh '/kaniko/executor --context `pwd'
+            
+          '''
         }
       }
     }
- stage ('Prisma Cloud scan') { 
-        prismaCloudScanImage ca: '',
-                    cert: '',
-                    image: 'hello-kaniko:1.2',
-                    ignoreImageBuildTime: true,
-                    key: '',
-                    logLevel: 'info',
-                    podmanPath: '',
-                    project: '',
-                    resultsFile: 'prisma-cloud-scan-results.json'
-                 
-    }
 
-    stage ('Prisma Cloud publish') {
-        prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
-    }
   }
 }
