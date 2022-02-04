@@ -11,7 +11,6 @@ podTemplate(yaml: '''
         - 99d
       - name: jnlp
         image: jenkinsci/jnlp-slave:3.10-1-alpine
-        args: ${computer.jnlpmac} ${computer.name}
       - name: alpine
         image: twistian/alpine:latest'
         command: 'cat'
