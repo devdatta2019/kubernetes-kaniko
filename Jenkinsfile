@@ -65,7 +65,8 @@ podTemplate(yaml: '''
                     podmanPath: '',
                     project: '',
                     resultsFile: 'prisma-cloud-scan-results.json'
-          
+                   
+                
           }
        
       }
@@ -74,7 +75,8 @@ podTemplate(yaml: '''
                           
       stage ('Prisma Cloud publish') {
         prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
-    }
+    }   
+    
   }
 }
 
