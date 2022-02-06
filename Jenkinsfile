@@ -9,8 +9,8 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: alpine
-        image: alpine
+      - name: ubuntu
+        image: ubuntu:latest
         command:
         - sleep
         args:
@@ -55,11 +55,11 @@ podTemplate(yaml: '''
       }
     }
  stage('prismaCloud-example-builder') { 
-      container('alpine') {
+      container('ubuntu') {
           stage ('Prisma Cloud scan') {
               prismaCloudScanImage ca: '',
                     cert: '',
-                    image: 'nginx:stable-alpine',
+                    image: 'alpine',
                     ignoreImageBuildTime: true,
                     key: '',
                     logLevel: 'info',
