@@ -59,12 +59,11 @@ podTemplate(yaml: '''
           stage ('Prisma Cloud scan') {
               prismaCloudScanImage ca: '',
                     cert: '',
-                    image: 'alpine',
-                    ignoreImageBuildTime: true,
+                    dockerAddress: 'unix:///var/run/docker.sock',
+                    image: 'nginx'
                     key: '',
                     logLevel: 'info',
-                    podmanPath: '',
-                    project: '',
+                    podmanPath: 'project',
                     resultsFile: 'prisma-cloud-scan-results.json'
                    
                 
