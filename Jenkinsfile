@@ -60,7 +60,6 @@ podTemplate(yaml: '''
         prismaCloudScanImage ca: '',
                     cert: '',
                     image: 'nginx',
-                    dockerAddress: 'unix:///var/run/docker.sock',
                     ignoreImageBuildTime: true,
                     key: '',
                     logLevel: 'info',
