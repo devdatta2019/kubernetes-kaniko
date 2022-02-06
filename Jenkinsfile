@@ -11,7 +11,10 @@ podTemplate(yaml: '''
         - 99d
       - name: alpine
         image: alpine
-        ttyEnabled: true
+        command:
+        - sleep
+        args:
+        - 99d
       - name: kaniko
         image: gcr.io/kaniko-project/executor:debug
         command:
