@@ -46,14 +46,14 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('DIND') {
         stage('Build a Go project') {
-          sh 'docker build -t 
+          sh 'docker build -t https://github.com/devdatta2019/kubernetes-kaniko.git .'
             
           '''
         }
       }
     }
  stage('prismaCloud-example-builder') { 
-      container('ubuntu') {
+      container('DIND') {
            stage ('Prisma Cloud scan') { 
         prismaCloudScanImage ca: '',
                     cert: '',
