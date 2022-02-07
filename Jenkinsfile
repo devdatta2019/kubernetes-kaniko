@@ -15,8 +15,8 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: kaniko
-        image: gcr.io/kaniko-project/executor:debug
+      - name: DIND
+        image: rancher/dind
         command:
         - sleep
         args:
@@ -46,22 +46,20 @@ podTemplate(yaml: '''
     }
 
     stage('Build Java Image') {
-      container('kaniko') {
+      container('ubuntu') {
         stage('Build a Go project') {
-          sh '''
-            export IFS=''
-            /kaniko/executor --build-arg "name='hello-kaniko:1.0" --no-push
-          '''
+          sh 'docker build -t https://github.com/devdatta2019/kubernetes-kaniko.git .'
+            
+          
         }
       }
     }
-      node(POD_LABEL) {  
-      stage('prismaCloud-example-builder') { 
+ stage('prismaCloud-example-builder') { 
       container('ubuntu') {
            stage ('Prisma Cloud scan') { 
         prismaCloudScanImage ca: '',
                     cert: '',
-                    image: 'hello-kaniko:1.0',
+                    image: 'nginx',
                     ignoreImageBuildTime: true,
                     key: '',
                     logLevel: 'info',
@@ -73,10 +71,14 @@ podTemplate(yaml: '''
 
     stage ('Prisma Cloud publish') {
         prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
-      }
-     }
     }
   }
 }
-
+      
+                          
+      stage ('Prisma Cloud publish') {
+        prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
+    }   
+    
+  }
 }
