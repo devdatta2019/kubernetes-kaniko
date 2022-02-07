@@ -35,7 +35,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
-      checkout scm
+      git url: 'https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main'
       container('maven') {
         stage('Build a Maven project') {
           sh '''
@@ -56,25 +56,26 @@ podTemplate(yaml: '''
     }
  stage('prismaCloud-example-builder') { 
       container('ubuntu') {
-           stage ('Prisma Cloud scan') { 
-        prismaCloudScanImage ca: '',
+          stage ('Prisma Cloud scan') {
+              prismaCloudScanImage ca: '',
                     cert: '',
-                    image: 'nginx',
-                    ignoreImageBuildTime: true,
+                    dockerAddress: 'unix:///var/run/docker.sock',
+                    image: 'nginx'
                     key: '',
                     logLevel: 'info',
-                    podmanPath: '',
-                    project: '',
+                    podmanPath: 'project',
                     resultsFile: 'prisma-cloud-scan-results.json'
-                 
-    }
-
-    stage ('Prisma Cloud publish') {
-        prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
-    }
-  }
-}
+                   
+                
+          }
+       
+      }
+   } 
       
                           
-      
+      stage ('Prisma Cloud publish') {
+        prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
+    }   
+    
   }
+}
