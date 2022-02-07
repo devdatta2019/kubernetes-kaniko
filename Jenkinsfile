@@ -35,7 +35,7 @@ podTemplate(yaml: '''
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
-      checkoutscm
+      checkout scm
       container('maven') {
         stage('Build a Maven project') {
           sh '''
