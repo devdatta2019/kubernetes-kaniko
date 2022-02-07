@@ -49,7 +49,8 @@ podTemplate(yaml: '''
       container('kaniko') {
         stage('Build a Go project') {
           sh '''
-            /kaniko/executor --context `pwd` hello-kaniko:1.0 --no-push
+            export IFS=''
+            /kaniko/executor --build-arg "name='hello-kaniko:1.0'" ...
           '''
         }
       }
