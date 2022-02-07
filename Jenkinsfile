@@ -53,7 +53,10 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
-          sh 'docker build -t https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main'
+            script {
+            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+}
+   
             
           
         }
