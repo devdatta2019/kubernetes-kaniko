@@ -46,7 +46,7 @@ podTemplate(yaml: '''
     }
 
     stage('Build Java Image') {
-      container('ubuntu') {
+      container('dind') {
         stage('Build a Go project') {
           sh 'docker build -t https://github.com/devdatta2019/kubernetes-kaniko.git .'
             
