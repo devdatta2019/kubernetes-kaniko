@@ -71,6 +71,8 @@ podTemplate(yaml: '''
 
     stage ('Prisma Cloud publish') {
         prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
+      }
+     }
     }
   }
 }
