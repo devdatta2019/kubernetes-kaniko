@@ -49,7 +49,7 @@ podTemplate(yaml: '''
       container('kaniko') {
         stage('Build a Go project') {
           sh '''
-            /kaniko/executor --context `pwd` devdatta1987/hello-kaniko:1.0 --no-push
+            /kaniko/executor --context `pwd` hello-kaniko:1.0 --no-push
           '''
         }
       }
