@@ -54,7 +54,8 @@ podTemplate(yaml: '''
         }
       }
     }
- stage('prismaCloud-example-builder') { 
+      node(POD_LABEL) {  
+      stage('prismaCloud-example-builder') { 
       container('ubuntu') {
            stage ('Prisma Cloud scan') { 
         prismaCloudScanImage ca: '',
@@ -75,4 +76,6 @@ podTemplate(yaml: '''
      }
     }
   }
+}
+
 }
