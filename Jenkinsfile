@@ -1,6 +1,5 @@
-import jenkins.model.*
-jenkins = Jenkins.instance
 
+def app
 environment { 
 registry = "devdatta1987/hello-kaniko" 
 registryCredential = 'devdatta1987' 
@@ -56,8 +55,7 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
-            script {
-            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            app = docker.build("devdatta1987/test") 
 }
    
             
@@ -92,4 +90,4 @@ podTemplate(yaml: '''
     }   
     
   }
-}
+
