@@ -1,3 +1,6 @@
+import jenkins.model.*
+jenkins = Jenkins.instance
+
 environment { 
 registry = "devdatta1987/hello-kaniko" 
 registryCredential = 'devdatta1987' 
