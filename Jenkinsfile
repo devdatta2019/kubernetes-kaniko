@@ -15,21 +15,23 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: DIND
-        image: rancher/dind
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:debug
         command:
         - sleep
         args:
         - 9999999
         volumeMounts:
-        - name:  dind-storage
-          mountPath: /var/lib/docker
+        - name: kaniko-secret
+          mountPath: /kaniko/.docker
       restartPolicy: Never
       volumes:
-      - name: dind-storage
-        emptyDir: {}
-        
-            
+      - name: kaniko-secret
+        secret:
+            secretName: dockercred
+            items:
+            - key: .dockerconfigjson
+              path: config.json
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
@@ -44,16 +46,16 @@ podTemplate(yaml: '''
     }
 
     stage('Build Java Image') {
-      container('DIND') {
+      container('kaniko') {
         stage('Build a Go project') {
-          sh 'docker build -t https://github.com/devdatta2019/kubernetes-kaniko.git .'
-            
+          sh '''
+            /kaniko/executor --context `pwd` --no-push
           '''
         }
       }
     }
  stage('prismaCloud-example-builder') { 
-      container('DIND') {
+      container('ubuntu') {
            stage ('Prisma Cloud scan') { 
         prismaCloudScanImage ca: '',
                     cert: '',
@@ -80,4 +82,3 @@ podTemplate(yaml: '''
     
   }
 }
-
