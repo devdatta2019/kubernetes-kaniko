@@ -49,7 +49,7 @@ podTemplate(yaml: '''
       container('kaniko') {
         stage('Build a Go project') {
           sh '''
-            /kaniko/executor --context `pwd` --no-push
+            /kaniko/executor --context `pwd` devdatta1987/hello-kaniko:1.0 --no-push
           '''
         }
       }
@@ -60,7 +60,7 @@ podTemplate(yaml: '''
            stage ('Prisma Cloud scan') { 
         prismaCloudScanImage ca: '',
                     cert: '',
-                    image: 'nginx',
+                    image: 'hello-kaniko:1.0',
                     ignoreImageBuildTime: true,
                     key: '',
                     logLevel: 'info',
