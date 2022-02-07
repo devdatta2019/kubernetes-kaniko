@@ -50,7 +50,7 @@ podTemplate(yaml: '''
         stage('Build a Go project') {
           sh '''
             export IFS=''
-            /kaniko/executor --build-arg "name='hello-kaniko:1.0" ...
+            /kaniko/executor --build-arg "name='hello-kaniko:1.0"
           '''
         }
       }
