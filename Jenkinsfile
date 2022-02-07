@@ -1,3 +1,8 @@
+environment { 
+registry = "devdatta1987/hello-kaniko" 
+registryCredential = 'devdatta1987' 
+dockerImage = ''       
+    }
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -48,7 +53,7 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
-          sh 'docker build -t https://github.com/devdatta2019/kubernetes-kaniko.git .'
+          sh 'docker build -t .'
             
           
         }
