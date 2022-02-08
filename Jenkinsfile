@@ -7,7 +7,7 @@ dockerImage = ''
     }
 pipeline {
     agent any
-
+    stages { 
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -96,5 +96,7 @@ dockerImage = docker.build registry + ":$BUILD_NUMBER"
     
   }
 
+
+}
 
 }
