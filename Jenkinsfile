@@ -1,3 +1,4 @@
+def label
 def dockerImage
 podTemplate(yaml: '''
     apiVersion: v1
