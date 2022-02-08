@@ -1,9 +1,10 @@
-
+pipeline { 
 environment { 
- DOCKER_ADDR = 'unix:///var/run/docker.sock'
-        IMAGE_NAME = 'ubuntu_test'
-        REGISTRY_ADDR = 'https://hub.docker.com/u/devdatta1987'  
+        registry = "YourDockerhubAccount/YourRepository"
+        registryCredential = 'dockerhub_id'
+        dockerImage = ''
     }
+agent any 
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -97,5 +98,7 @@ docker.withServer("${env.DOCKER_ADDR}") {
 
 
 
+
+}
 
 }
