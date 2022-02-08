@@ -1,5 +1,5 @@
-def registry = "YourDockerhubAccount/YourRepository"
-def registryCredential = 'dockerhub_id'
+def registry = "devdatta1987/devsecops"
+def registryCredential = 'devdatta1987'
 def dockerImage = 
 
 
