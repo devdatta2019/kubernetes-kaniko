@@ -39,7 +39,7 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
-             app = docker.build("devdatta1987/test")  
+             app = docker.build("https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main")  
             
           
         }
