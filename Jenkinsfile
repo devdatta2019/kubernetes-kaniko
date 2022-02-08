@@ -1,5 +1,3 @@
-def label
-def dockerImage
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -17,16 +15,25 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: dind
-        image: rancher/dind
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:debug
         command:
         - sleep
         args:
         - 9999999
-        
+        volumeMounts:
+        - name: kaniko-secret
+          mountPath: /kaniko/.docker
+      restartPolicy: Never
+      volumes:
+      - name: kaniko-secret
+        secret:
+            secretName: dockercred
+            items:
+            - key: .dockerconfigjson
+              path: config.json
 ''') {
   node(POD_LABEL) {
-      def app
     stage('Get a Maven project') {
       git url: 'https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main'
       container('maven') {
@@ -39,20 +46,11 @@ podTemplate(yaml: '''
     }
 
     stage('Build Java Image') {
-      container('dind') {
+      container('kaniko') {
         stage('Build a Go project') {
-              script {
-                    def commit = checkout scm
-                    // we set BRANCH_NAME to make when { branch } syntax work without multibranch job
-                    env.BRANCH_NAME = commit.GIT_BRANCH.replace('origin/', '')
-
-                    dockerImage = docker.build("myImage:${env.BUILD_ID}",
-                        "--label \"GIT_COMMIT=${env.GIT_COMMIT}\""
-                        + " --build-arg MY_ARG=myArg"
-                        + " ."
-                    )
-            
-          
+          sh '''
+            /kaniko/executor --context `pwd` --no-push
+          '''
         }
       }
     }
@@ -83,7 +81,4 @@ podTemplate(yaml: '''
     }   
     
   }
-}
-
-
 }
