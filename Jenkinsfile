@@ -15,23 +15,13 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: kaniko
-        image: gcr.io/kaniko-project/executor:debug
+      - name: dind
+        image: rancher/dind
         command:
         - sleep
         args:
         - 9999999
-        volumeMounts:
-        - name: kaniko-secret
-          mountPath: /kaniko/.docker
-      restartPolicy: Never
-      volumes:
-      - name: kaniko-secret
-        secret:
-            secretName: dockercred
-            items:
-            - key: .dockerconfigjson
-              path: config.json
+        
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
@@ -46,11 +36,11 @@ podTemplate(yaml: '''
     }
 
     stage('Build Java Image') {
-      container('kaniko') {
+      container('dind') {
         stage('Build a Go project') {
-          sh '''
-            /kaniko/executor --context `pwd` --no-push
-          '''
+          sh 'docker --version'
+            
+          
         }
       }
     }
