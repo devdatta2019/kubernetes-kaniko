@@ -24,6 +24,7 @@ podTemplate(yaml: '''
         
 ''') {
   node(POD_LABEL) {
+      def app
     stage('Get a Maven project') {
       git url: 'https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main'
       container('maven') {
@@ -38,7 +39,7 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
-          sh 'docker --version'
+             app = docker.build("devdatta1987/test")  
             
           
         }
