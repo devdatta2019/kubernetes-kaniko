@@ -22,16 +22,11 @@ podTemplate(yaml: '''
         args:
         - 9999999
         volumeMounts:
-        - name: kaniko-secret
-          mountPath: /kaniko/.docker
-      restartPolicy: Never
-      volumes:
-      - name: kaniko-secret
-        secret:
-            secretName: dockercred
-            items:
-            - key: .dockerconfigjson
-              path: config.json
+        - name: dind-storage
+          mountPath: /var/lib/docker
+        volumes:
+      - name: dind-storage
+        emptyDir: {}
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
@@ -45,14 +40,14 @@ podTemplate(yaml: '''
       }
     }
     
-     registry = "https://github.com/devdatta2019/kubernetes-kaniko.git"
-     registryCredential = 'dockerhub_id'
-     dockerImage =      
+     
+     
+     
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
             script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                   docker build -t 'https://github.com/scriptcamp/kubernetes-kaniko.git . ' 
 
                      
 }
