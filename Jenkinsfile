@@ -1,8 +1,8 @@
 
 environment { 
-registry = "devdatta1987/hello-kaniko" 
-registryCredential = 'devdatta1987' 
-dockerImage = ''       
+ DOCKER_ADDR = 'unix:///var/run/docker.sock'
+        IMAGE_NAME = 'ubuntu_test'
+        REGISTRY_ADDR = 'https://hub.docker.com/u/devdatta1987'  
     }
 podTemplate(yaml: '''
     apiVersion: v1
@@ -55,7 +55,8 @@ podTemplate(yaml: '''
       container('dind') {
         stage('Build a Go project') {
             script {
-dockerImage = docker.build registry + ":$BUILD_NUMBER"
+docker.withServer("${env.DOCKER_ADDR}") {
+                        image = docker.build("${env.IMAGE_NAME}:${env.BUILD_NUMBER}")
 }
 }
    
@@ -96,3 +97,5 @@ dockerImage = docker.build registry + ":$BUILD_NUMBER"
 
 
 
+
+}
