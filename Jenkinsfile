@@ -27,15 +27,7 @@ podTemplate(yaml: '''
         args:
         - 9999999
       restartPolicy: Never
-      volumeMounts:
-    - mountPath: /var/run/docker.sock
-      name: test-volume
-  volumes:
-  - name: test-volume
-    hostPath:
-      # directory location on host
-      path: /var/run/docker.sock
-      # this field is optional
+      
     
      
 ''')
