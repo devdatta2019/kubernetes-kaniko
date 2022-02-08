@@ -40,7 +40,12 @@ podTemplate(yaml: '''
         }
       }
     }
-
+    stage('Cloning our Git') {
+        container('dind') {  
+git 'https://github.com/scriptcamp/kubernetes-kaniko.git'  
+        }
+    } 
+  }           
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
@@ -78,4 +83,4 @@ dockerImage = docker.build registry + ":$BUILD_NUMBER"
     }   
     
   }
-}
+
