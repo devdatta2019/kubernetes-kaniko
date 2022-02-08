@@ -1,3 +1,5 @@
+def scmvars
+def image
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -38,7 +40,15 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
-          sh 'docker build -t image/image -f https://github.com/scriptcamp/kubernetes-kaniko.git .'
+          // arg 1 is the image name and tag
+        // arg 2 is docker build command line
+        image = docker.build("com.mycompany.myproject/my-image:${env.BUILD_ID}",
+              " --build-arg commit=${scmvars.GIT_COMMIT}"
+            + " --build-arg http_proxy=${env.http_proxy}"
+            + " --build-arg https_proxy=${env.https_proxy}"
+            + " --build-arg no_proxy=${env.no_proxy}"
+            + " path/to/dir/with/Dockerfile")
+    }
             
          
         }
@@ -71,4 +81,4 @@ podTemplate(yaml: '''
     }   
     
   }
-}
+
