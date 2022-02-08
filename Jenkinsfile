@@ -41,12 +41,7 @@ podTemplate(yaml: '''
         }
       }
     }
-    stage('Cloning our Git') {
-        container('git') {  
-git 'https://github.com/scriptcamp/kubernetes-kaniko.git'  
-        }
-    } 
-  }           
+            
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
