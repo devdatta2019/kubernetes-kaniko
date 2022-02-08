@@ -45,7 +45,7 @@ podTemplate(yaml: '''
       }
     }
     
-     registry = "YourDockerhubAccount/YourRepository"
+     registry = "https://github.com/devdatta2019/kubernetes-kaniko.git"
      registryCredential = 'dockerhub_id'
      dockerImage =      
     stage('Build Java Image') {
