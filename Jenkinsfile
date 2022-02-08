@@ -27,9 +27,7 @@ podTemplate(yaml: '''
         args:
         - 9999999
       restartPolicy: Never
-     volumeMounts:
-        - name: kaniko-secret
-          mountPath: /var/run/docker.sock
+     
       
 ''') {
   node(POD_LABEL) {
