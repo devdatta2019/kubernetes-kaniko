@@ -1,10 +1,7 @@
-pipeline { 
-environment { 
-        registry = "YourDockerhubAccount/YourRepository"
-        registryCredential = 'dockerhub_id'
-        dockerImage = ''
-    }
-agent any 
+
+       ''
+   
+
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -51,14 +48,17 @@ podTemplate(yaml: '''
         }
       }
     }
-
+    
+     registry = "YourDockerhubAccount/YourRepository"
+     registryCredential = 'dockerhub_id'
+     dockerImage =      
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
             script {
-docker.withServer("${env.DOCKER_ADDR}") {
-                        image = docker.build("${env.IMAGE_NAME}:${env.BUILD_NUMBER}")
-}
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+
+                     
 }
    
             
@@ -101,4 +101,4 @@ docker.withServer("${env.DOCKER_ADDR}") {
 
 }
 
-}
+
