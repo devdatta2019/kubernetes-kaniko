@@ -27,12 +27,7 @@ podTemplate(yaml: '''
         args:
         - 9999999
       restartPolicy: Never
-     - name: git
-       image: bitnami/git
-       command:
-        - sleep
-        args:
-        - 99d
+     
       
 ''') {
   node(POD_LABEL) {
