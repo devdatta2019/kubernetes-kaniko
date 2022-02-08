@@ -1,5 +1,3 @@
-def scmvars
-def image
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -17,13 +15,23 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: dind
-        image: rancher/dind
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:debug
         command:
         - sleep
         args:
         - 9999999
-        
+        volumeMounts:
+        - name: kaniko-secret
+          mountPath: /kaniko/.docker
+      restartPolicy: Never
+      volumes:
+      - name: kaniko-secret
+        secret:
+            secretName: dockercred
+            items:
+            - key: .dockerconfigjson
+              path: config.json
 ''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
@@ -38,19 +46,11 @@ podTemplate(yaml: '''
     }
 
     stage('Build Java Image') {
-      container('dind') {
+      container('kaniko') {
         stage('Build a Go project') {
-          // arg 1 is the image name and tag
-        // arg 2 is docker build command line
-        image = docker.build("com.mycompany.myproject/my-image:${env.BUILD_ID}",
-              " --build-arg commit=${scmvars.GIT_COMMIT}"
-            + " --build-arg http_proxy=${env.http_proxy}"
-            + " --build-arg https_proxy=${env.https_proxy}"
-            + " --build-arg no_proxy=${env.no_proxy}"
-            + " path/to/dir/with/Dockerfile")
-    }
-            
-         
+          sh '''
+            /kaniko/executor --context `pwd` --no-push
+          '''
         }
       }
     }
@@ -81,4 +81,4 @@ podTemplate(yaml: '''
     }   
     
   }
-
+}
