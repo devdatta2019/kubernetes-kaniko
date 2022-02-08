@@ -27,7 +27,11 @@ podTemplate(yaml: '''
         args:
         - 9999999
       restartPolicy: Never
-     
+      
+      volumes: [ 
+    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+    ]
+    )
       
 ''') {
   node(POD_LABEL) {
