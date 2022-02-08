@@ -21,7 +21,7 @@ podTemplate(yaml: '''
         args:
         - 99d
       - name: dind
-        image:  rancher/dind
+        image: rancher/dind
         command:
         - sleep
         args:
