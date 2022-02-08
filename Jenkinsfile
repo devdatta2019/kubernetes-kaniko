@@ -27,6 +27,12 @@ podTemplate(yaml: '''
         args:
         - 9999999
       restartPolicy: Never
+     - name: git
+       image: bitnami/git
+       command:
+        - sleep
+        args:
+        - 99d
       
 ''') {
   node(POD_LABEL) {
@@ -41,7 +47,7 @@ podTemplate(yaml: '''
       }
     }
     stage('Cloning our Git') {
-        container('dind') {  
+        container('git') {  
 git 'https://github.com/scriptcamp/kubernetes-kaniko.git'  
         }
     } 
