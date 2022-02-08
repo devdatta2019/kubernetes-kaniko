@@ -16,7 +16,7 @@ podTemplate(yaml: '''
         args:
         - 99d
       - name: dind
-        image: gcr.io/kaniko-project/executor:debug
+        image: rancher/dind
         command:
         - sleep
         args:
