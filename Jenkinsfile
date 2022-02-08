@@ -39,7 +39,16 @@ podTemplate(yaml: '''
     stage('Build Java Image') {
       container('dind') {
         stage('Build a Go project') {
-             app = docker.build("https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main")  
+              script {
+                    def commit = checkout scm
+                    // we set BRANCH_NAME to make when { branch } syntax work without multibranch job
+                    env.BRANCH_NAME = commit.GIT_BRANCH.replace('origin/', '')
+
+                    dockerImage = docker.build("myImage:${env.BUILD_ID}",
+                        "--label \"GIT_COMMIT=${env.GIT_COMMIT}\""
+                        + " --build-arg MY_ARG=myArg"
+                        + " ."
+                    )
             
           
         }
@@ -74,3 +83,5 @@ podTemplate(yaml: '''
   }
 }
 
+
+}
