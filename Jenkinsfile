@@ -31,9 +31,9 @@ podTemplate(yaml: '''
       volumes: [ 
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
     ]
-    )
+''')
       
-''') {
+ {
   node(POD_LABEL) {
     stage('Get a Maven project') {
       git url: 'https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main'
