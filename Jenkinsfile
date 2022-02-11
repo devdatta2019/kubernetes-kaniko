@@ -1,8 +1,3 @@
-def registry = "devdatta1987/devsecops"
-def registryCredential = 'devdatta1987'
-def dockerImage = 
-
-
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -20,22 +15,24 @@ podTemplate(yaml: '''
         - sleep
         args:
         - 99d
-      - name: dind
-        image: rancher/dind
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:debug
         command:
         - sleep
         args:
         - 9999999
-      restartPolicy: Never
-      volumeMounts:
+        volumeMounts:
         - name: kaniko-secret
-          mountPath: /var/run/docker.sock
-      
-    
-     
-''')
-      
- {
+          mountPath: /kaniko/.docker
+      restartPolicy: Never
+      volumes:
+      - name: kaniko-secret
+        secret:
+            secretName: dockercred
+            items:
+            - key: .dockerconfigjson
+              path: config.json
+''') {
   node(POD_LABEL) {
     stage('Get a Maven project') {
       git url: 'https://github.com/scriptcamp/kubernetes-kaniko.git', branch: 'main'
@@ -47,13 +44,13 @@ podTemplate(yaml: '''
         }
       }
     }
-            
+
     stage('Build Java Image') {
-      container('dind') {
-          script {
-dockerImage = docker.build registry + ":$BUILD_NUMBER"
-}
-          
+      container('kaniko') {
+        stage('Build a Go project') {
+          sh '''
+            /kaniko/executor --context `pwd` --no-push
+          '''
         }
       }
     }
@@ -84,4 +81,4 @@ dockerImage = docker.build registry + ":$BUILD_NUMBER"
     }   
     
   }
- 
+}
