@@ -55,9 +55,30 @@ podTemplate(yaml: '''
       }
     }
  stage('prismaCloud-example-builder') { 
-  
+      container('ubuntu') {
+           stage ('Prisma Cloud scan') { 
+        prismaCloudScanImage ca: '',
+                    cert: '',
+                    image: 'nginx',
+                    ignoreImageBuildTime: true,
+                    key: '',
+                    logLevel: 'info',
+                    podmanPath: '',
+                    project: '',
+                    resultsFile: 'prisma-cloud-scan-results.json'
+                 
+    }
+
+    stage ('Prisma Cloud publish') {
+        prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
     }
   }
 }
+      
+                          
+      stage ('Prisma Cloud publish') {
+        prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
+    }   
     
-    
+  }
+}
