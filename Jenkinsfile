@@ -54,6 +54,29 @@ podTemplate(yaml: '''
         }
       }
     }
- 
+     
+stage('Check twistcli version') {
+
+  def TCLI_VERSION = sh(script: "./twistcli | grep -A1 VERSION | sed 1d", returnStdout:true).trim()
+  def CONSOLE_VERSION = sh(script: "curl -k -u \"f04d752e-26fd-4c43-b4ec-0b1a96d60ad7:Fd541jRnVmlYnrsn3H0Onu+al28=\" https://https://us-west1.cloud.twistlock.com/us-3-159181236/api/v1/version | tr -d \'\"'", returnStdout:true).trim()
+
+  println "TCLI_VERSION = $TCLI_VERSION"
+  println "CONSOLE_VERSION = $CONSOLE_VERSION"
+
+  if ("$TCLI_VERSION" != "$CONSOLE_VERSION") {
+    println "downloading twistcli"
+    sh 'curl -k -u f04d752e-26fd-4c43-b4ec-0b1a96d60ad7:Fd541jRnVmlYnrsn3H0Onu+al28= --output ./twistcli https://https://https://us-west1.cloud.twistlock.com/us-3-159181236/api/v1/util/twistcli'
+    sh 'sudo chmod a+x ./twistcli'
   }
 }
+
+      
+stage('Scan with Twistcli') {
+  sh './twistcli images scan --address https://us-west1.cloud.twistlock.com/us-3-159181236 -u f04d752e-26fd-4c43-b4ec-0b1a96d60ad7 -p Fd541jRnVmlYnrsn3H0Onu+al28= --details devdatta1987/hello-kaniko'
+}      
+  } 
+}   
+      
+      
+  
+
