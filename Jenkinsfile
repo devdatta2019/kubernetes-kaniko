@@ -74,6 +74,11 @@ stage('Check twistcli version') {
       
 stage('Scan with Twistcli')
       container('ubuntu') {  
+          
+   if ("$TCLI_VERSION" != "$CONSOLE_VERSION") {
+    println "downloading twistcli"
+    sh 'curl -k -u f04d752e-26fd-4c43-b4ec-0b1a96d60ad7:Fd541jRnVmlYnrsn3H0Onu+al28= --output ./twistcli https://https://https://us-west1.cloud.twistlock.com/us-3-159181236/api/v1/util/twistcli'
+    sh 'sudo chmod a+x ./twistcli'        
   sh './twistcli images scan --address https://us-west1.cloud.twistlock.com/us-3-159181236 -u f04d752e-26fd-4c43-b4ec-0b1a96d60ad7 -p Fd541jRnVmlYnrsn3H0Onu+al28= --details devdatta1987/hello-kaniko'
 }      
   } 
@@ -82,3 +87,6 @@ stage('Scan with Twistcli')
       
   
 
+
+
+}
