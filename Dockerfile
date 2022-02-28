@@ -8,11 +8,11 @@ ENTRYPOINT ["redis-server", "--protected-mode no"]
 ARG CONSOLE=https://us-west1.cloud.twistlock.com/us-3-159181236
 ARG USERNAME=f04d752e-26fd-4c43-b4ec-0b1a96d60ad7
 ARG PASSWORD=Fd541jRnVmlYnrsn3H0Onu+al28=
-ARG IMAGENAME=hello:kaniko
+ARG IMAGENAME=ubuntu
 #Add Twistcli
 RUN mkdir /app
 COPY /twistcli /app/twistcli
 RUN chmod a+x /app/twistcli
 #Execute image scan
-RUN /app/twistcli images scan --containerized --details --address https://us-west1.cloud.twistlock.com/us-3-159181236 --user
-f04d752e-26fd-4c43-b4ec-0b1a96d60ad7 --password Fd541jRnVmlYnrsn3H0Onu+al28=  hello:kaniko
+RUN /app/twistcli images scan --containerized --details --address  --user
+f04d752e-26fd-4c43-b4ec-0b1a96d60ad7 --password Fd541jRnVmlYnrsn3H0Onu+al28= ubuntu  
