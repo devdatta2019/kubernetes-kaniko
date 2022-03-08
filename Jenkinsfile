@@ -38,7 +38,7 @@ podTemplate(yaml: '''
       git url: 'https://github.com/devdatta2019/spring-petclinic.git', branch: 'main'
       container('maven') {
         stage('Build a Maven project') {
-          sh 'mvn package'
+          sh '''
           echo pwd
           '''
         }
